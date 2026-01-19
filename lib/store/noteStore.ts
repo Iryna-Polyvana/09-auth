@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import type { CreateNoteData } from '../api';
+import { CreateNoteData } from '../api/clientApi';
+
 
 const initialDraft: CreateNoteData = {
   title: '',

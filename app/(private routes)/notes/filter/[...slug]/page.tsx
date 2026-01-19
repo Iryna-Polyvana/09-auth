@@ -1,5 +1,5 @@
-import NotesClient from '@/app/notes/filter/[...slug]/Notes.client';
-import { fetchNotes } from '@/lib/api';
+import NotesClient from './Notes.client';
+import { fetchNotes } from '@/lib/api/serverApi';
 import {
   dehydrate,
   HydrationBoundary,

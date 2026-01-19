@@ -2,9 +2,9 @@
 import { useQuery } from '@tanstack/react-query';
 import css from './NotesPreviewClient.module.css';
 import { useParams } from 'next/navigation';
-import { fetchNoteById } from '@/lib/api';
 import { useRouter } from 'next/navigation';
-import Modal from '@/components/ModalNotePreview/Modal';
+import Modal from '@/components/Modal/Modal';
+import { fetchNoteById } from '@/lib/api/clientApi';
 
 const NotesPreviewClient = () => {
   const router = useRouter();
