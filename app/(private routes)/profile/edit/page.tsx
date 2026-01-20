@@ -5,17 +5,19 @@ import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import User from '@/types/user';
 import { getMe, updateMe } from '@/lib/api/clientApi';
+import { useAuthStore } from '@/lib/store/authStore';
 
 const EditProfilePage = () => {
   const router = useRouter();
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setLocalUser] = useState<User | null>(null);
   const [username, setUsername] = useState('');
+  const setAuthUser = useAuthStore(state => state.setUser);
 
   useEffect(() => {
     const loadUser = async () => {
       try {
         const data = await getMe();
-        setUser(data);
+        setLocalUser(data);
         setUsername(data.username);
       } catch (err) {
         console.error('Failed to load user', err);
@@ -29,7 +31,8 @@ const EditProfilePage = () => {
     e.preventDefault();
 
     try {
-      await updateMe({ username });
+      const updatedUser = await updateMe({ username });
+      setAuthUser(updatedUser);
       router.push('/profile');
     } catch (error) {
       console.error('Failed to update user', error);
@@ -56,7 +59,13 @@ const EditProfilePage = () => {
         <form className={css.profileInfo} onSubmit={handleSubmit}>
           <div className={css.usernameWrapper}>
             <label htmlFor="username">Username:</label>
-            <input id="username" type="text" className={css.input} />
+            <input
+              id="username"
+              type="text"
+              className={css.input}
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+            />
           </div>
 
           <p>Email: {user.email}</p>
